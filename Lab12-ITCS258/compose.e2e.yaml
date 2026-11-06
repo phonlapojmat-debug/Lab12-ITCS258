@@ -1,0 +1,21 @@
+name: lab10-e2e-6688202
+services:
+  mysql-e2e:
+    image: mysql:8.0
+    ports:
+      - "127.0.0.1:3307:3306"
+    environment:
+      MYSQL_DATABASE: ${LAB10_E2E_DATABASE_NAME:?Run the E2E configure helper first}
+      MYSQL_USER: ${LAB10_E2E_DATABASE_USER:?Run the E2E configure helper first}
+      MYSQL_PASSWORD: ${LAB10_E2E_DATABASE_PASSWORD:?Run the E2E configure helper first}
+      MYSQL_ROOT_PASSWORD: ${LAB10_E2E_ROOT_PASSWORD:?Run the E2E configure helper first}
+    volumes:
+      - mysql-e2e-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "--silent"]
+      start_period: 20s
+      interval: 3s
+      timeout: 3s
+      retries: 20
+volumes:
+  mysql-e2e-data:
